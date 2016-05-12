@@ -9,14 +9,14 @@ var Twitch = require('./lib/twitch.js');
 var custom_commands = require('./lib/custom-commands.js');
 var fs = require('fs-extra');
 
-const pyv = require('child_process').spawn(process.env.PYTHON_PATH + '/python', ['--version']);
-pyv.stderr.on('data', (data) => {
-  if (data === '') return;
-  if (data.toString().match(/2\.7/))
-    console.log(`  using: ${data.toString().replace('\n', '')}`);
-  else
-    console.error(`  warn: please consider using python version 2.7`);
-});
+//const pyv = require('child_process').spawn(process.env.PYTHON_PATH + '/python', ['--version']);
+//pyv.stderr.on('data', (data) => {
+//  if (data === '') return;
+//  if (data.toString().match(/2\.7/))
+//    console.log(`  using: ${data.toString().replace('\n', '')}`);
+//  else
+//    console.error(`  warn: please consider using python version 2.7`);
+//});
 
 oauth2server.startOAuth2Server();
 var bots = {};
