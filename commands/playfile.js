@@ -38,7 +38,9 @@ function play_i(bots, channelID, file, callback) {
     stream.playAudioFile(file);
     stream.once('fileEnd', () => {
       playing = false;
-      callback();
+      setTimeout(function () {
+        callback();
+      }, 500);
     });
   });
 
