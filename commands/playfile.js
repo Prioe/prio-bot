@@ -2,61 +2,47 @@ var queue = [];
 var playing = false;
 
 function play(bots, message, file) {
-  var channel = message.author.voiceChannel;
-  var currentChannel = bots.js.user.voiceChannel;
+  var channelID = message.author.voiceChannel.id;
+  var io_bot_voice_id = bots.io._bot.servers[message.channel.server.id].members[bots.io._bot.id].voice_channel_id;
 
   if (file)
     queue.push(file);
 
-  if (channel != currentChannel) {
-    bots.js.joinVoiceChannel(message.author.voiceChannel, (err, connection) => {
-      if (err) throw err;
-      start(bots, message, connection);
+  if (channelID != io_bot_voice_id) {
+    bots.io._bot.joinVoiceChannel(channelID, () => {
+      start(bots, channelID);
     });
   } else {
     setTimeout(function () {
-      console.log(bots.js);
-      start(bots, message, bots.js.voiceConnection);
+      start(bots, channelID);
     }, 300);
   }
 
 }
 
-function start(bots, message, connection) {
+function start(bots, channelID) {
   if (playing) return;
-  play_i(connection, queue.shift(), next);
-  function next(e) {
-    if (e) {
-      bots.js.sendMessage(message.channel, `\`\`\`${e.stack}\`\`\``);
-    }
-    if (queue.length > 0) {
-      play_i(connection, queue.shift(), next);
-    } else {
-      //bots.js.leaveVoiceChannel(bots.js.user.voiceChannel, err => {
-      //  if (err) throw err;
-      //});
-    }
+  play_i(bots, channelID, queue.shift(), next);
+  function next() {
+      if (queue.length > 0) {
+        play_i(bots, channelID, queue.shift(), next);
+      } else {
+        bots.io._bot.leaveVoiceChannel(channelID);
+      }
   }
 }
 
-function play_i(connection, file, callback) {
+function play_i(bots, channelID, file, callback) {
   playing = true;
-  try {
-    connection.playFile(file, (err, intent) => { //http://www.noiseaddicts.com/samples_1w72b820/3740.mp3
-      if (err) throw err;
-      intent.on('error',  err => {
-        throw err;
-      });
-      intent.on('end',  () => {
-        playing = false;
-        callback(null);
-      });
+  bots.io._bot.getAudioContext( { channel: channelID, stereo: true }, (stream) => {
+    stream.playAudioFile(file);
+    stream.once('fileEnd', () => {
+      playing = false;
+      setTimeout(function () {
+        callback();
+      }, 500);
     });
-  } catch (e) {
-    playing = false;
-    callback(e);
-  }
-
+  });
 
 }
 
