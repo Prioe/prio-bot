@@ -1,0 +1,28 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'repo' ]
+2 info using npm@3.8.3
+3 info using node@v5.10.1
+4 silly fetchPackageMetaData .
+5 silly fetchDirectoryPackageData .
+6 verbose stack Error: no repository
+6 verbose stack     at getUrlAndOpen (C:\tools\nvm\v5.10.1\node_modules\npm\lib\repo.js:27:21)
+6 verbose stack     at C:\tools\nvm\v5.10.1\node_modules\npm\lib\repo.js:21:5
+6 verbose stack     at C:\tools\nvm\v5.10.1\node_modules\npm\lib\fetch-package-metadata.js:37:12
+6 verbose stack     at addRequestedAndFinish (C:\tools\nvm\v5.10.1\node_modules\npm\lib\fetch-package-metadata.js:82:5)
+6 verbose stack     at C:\tools\nvm\v5.10.1\node_modules\npm\node_modules\read-package-json\read-json.js:345:5
+6 verbose stack     at checkBinReferences_ (C:\tools\nvm\v5.10.1\node_modules\npm\node_modules\read-package-json\read-json.js:309:45)
+6 verbose stack     at final (C:\tools\nvm\v5.10.1\node_modules\npm\node_modules\read-package-json\read-json.js:343:3)
+6 verbose stack     at then (C:\tools\nvm\v5.10.1\node_modules\npm\node_modules\read-package-json\read-json.js:113:5)
+6 verbose stack     at ReadFileContext.<anonymous> (C:\tools\nvm\v5.10.1\node_modules\npm\node_modules\read-package-json\read-json.js:297:29)
+6 verbose stack     at ReadFileContext.callback (C:\tools\nvm\v5.10.1\node_modules\npm\node_modules\graceful-fs\graceful-fs.js:78:16)
+7 verbose cwd C:\Users\micha\Documents\prio-bot
+8 error Windows_NT 10.0.10586
+9 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "repo"
+10 error node v5.10.1
+11 error npm  v3.8.3
+12 error no repository
+13 error If you need help, you may report this error at:
+13 error     <https://github.com/npm/npm/issues>
+14 verbose exit [ 1, true ]
