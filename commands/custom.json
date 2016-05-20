@@ -41,7 +41,12 @@
   },
   "tttoni": {
     "type": "audio",
-    "content": "../media/audio/toni.mp3",
+    "content": {
+			"type": "single",
+			"files": [
+				"../media/audio/toni.mp3"
+			]
+		},
     "approved": false
   }
 }

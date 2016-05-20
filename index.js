@@ -18,7 +18,7 @@ var fs = require('fs-extra');
 //    console.error(`  warn: please consider using python version 2.7`);
 //});
 
-oauth2server.startOAuth2Server();
+//oauth2server.startOAuth2Server();
 var bots = {};
 bots.js = new Discord.Client();
 bots.io = new IOBot(settings.io_token);
