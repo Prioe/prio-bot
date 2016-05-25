@@ -1,9 +1,0 @@
-{
-    "type": "sftp",
-    "host": "corvus.uberspace.de",
-    "username": "prio",
-    "sshKeyFile": "C:/Users/micha/Documents/Keys/uberspace",
-    "port": 22,
-    "remotePath": "/home/prio/node/prio-bot",
-    "uploadOnSave": true
-}

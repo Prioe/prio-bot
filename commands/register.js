@@ -29,17 +29,32 @@ exports.run = function(bots, commands, message, args) {
     return;
   }
 
-  var o = {
-    type: _args.type,
-    name: _args.name,
-    content: _args.content,
-    approved: settings.custom_commands.auto_approve.indexOf(_args.type) != -1
-  };
+  var command;
+  var o;
 
-  var c = custom_commands({[o.name]: o});
-  commands.registerAll(c);
-  save(o);
-  bots.js.sendMessage(message.channel, `successfully registered command '${_args.name}'`);
+  switch (_args.type) {
+    case "echo":
+      o = {
+        type: _args.type,
+        name: _args.name,
+        content: _args.content,
+        approved: settings.custom_commands.auto_approve.indexOf(_args.type) != -1
+      };
+
+      command = custom_commands({[o.name]: o});
+      break;
+    default:
+
+  }
+
+  if (command) {
+    commands.registerAll(command);
+    save(o);
+    bots.js.sendMessage(message.channel, `successfully registered command '${_args.name}'`);
+  } else {
+    bots.js.sendMessage(message.channel, `failed to register command '${_args.name}'`);
+  }
+
 
 };
 

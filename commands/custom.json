@@ -39,14 +39,60 @@
     "content": "https://drive.google.com/file/d/0B6eIthnNmwyALVl0cVpvcnI0NUk/view",
     "approved": true
   },
-  "tttoni": {
+  "toni": {
     "type": "audio",
     "content": {
-			"type": "single",
-			"files": [
-				"../media/audio/toni.mp3"
-			]
-		},
+      "random": false,
+      "files": [
+        {
+          "file": "../media/audio/toni.mp3",
+          "remote": false
+        }
+      ]
+    },
+    "approved": false
+  },
+  "mimi": {
+    "type": "audio",
+    "content": {
+      "random": false,
+      "files": [
+        {
+          "file": "../media/audio/mimi.m4a",
+          "remote": false
+        }
+      ]
+    },
+    "approved": false
+  },
+  "hue": {
+    "type": "audio",
+    "content": {
+      "random": false,
+      "files": [
+        {
+          "file": "../media/audio/hue.m4a",
+          "remote": false
+        }
+      ]
+    },
+    "approved": false
+  },
+  "mihue": {
+    "type": "audio",
+    "content": {
+      "random": false,
+      "files": [
+        {
+          "file": "../media/audio/mimi.m4a",
+          "remote": false
+        },
+        {
+          "file": "../media/audio/hue.m4a",
+          "remote": false
+        }
+      ]
+    },
     "approved": false
   }
 }
