@@ -42,11 +42,16 @@
   "tttoni": {
     "type": "audio",
     "content": {
-			"type": "single",
-			"files": [
-				"../media/audio/toni.mp3"
-			]
-		},
+      "type": "single",
+      "files": [
+        "../media/audio/toni.mp3"
+      ]
+    },
     "approved": false
+  },
+  "rep": {
+    "type": "echo",
+    "content": "http://invme.ru/922/vse-znaniya-v-black-desert-priklyucheniya-v-balenose-i",
+    "approved": true
   }
 }
