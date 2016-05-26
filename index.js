@@ -7,10 +7,12 @@ var IOBot = require('./lib/io-bot.js');
 var Twitch = require('./lib/twitch.js');
 var custom_commands = require('./lib/custom-commands.js');
 var fs = require('fs-extra');
+var status_message = require('./lib/playing-message.js');
 
 var bots = {};
 var commands;
 var twitch;
+var status_interval;
 
 function start() {
   console.log(`running node version ${process.version}`);
@@ -37,7 +39,37 @@ function start() {
     commands.try(message);
   });
 
-  bots.js.loginWithToken(settings.token);
+  bots.js.on('ready', () => {
+    console.log('bot ready');
+    setStatusMessage(status_message.random());
+    status_interval = setInterval(function () {
+      setStatusMessage(status_message.random());
+    }, 5*60*1000);
+  });
+
+  bots.js.on('debug', (message) => {
+    console.log('debug: ' + message);
+  });
+
+  bots.js.on('warn', (message) => {
+    console.log('warn: ' + message);
+  });
+
+  bots.js.on('error', (message) => {
+    console.log('error: ' + message);
+  });
+
+  bots.js.on('disconnected', () => {
+    console.log('bot disconnected, shutting down process...');
+    process.exit(1);
+  });
+
+
+  bots.js.loginWithToken(settings.token, (err, token) => {
+    console.log('bot logged in');
+  });
+
+
   console.log('starting twitch-bot ...');
   twitch = new Twitch(bots);
   twitch.start();
@@ -82,6 +114,19 @@ function initCommands() {
   });
 }
 
+function setStatusMessage(message) {
+  try {
+    bots.js.setPlayingGame(message, (err) => {
+      if (err) {
+        console.log('failed to set statusmessage to ' + message);
+      }
+      console.log('set statusmessage to ' + message);
+    });
+  } catch (e) {
+    console.log(e.stack);
+  }
+}
+
 var didCleanup = false;
 function cleanup(callback) {
   if (didCleanup) callback();
@@ -107,6 +152,8 @@ function cleanup(callback) {
 }
 
 start();
+
+
 
 process.on('exit', cleanup.bind(null, process.exit));
 process.on('SIGINT', cleanup.bind(null, process.exit));

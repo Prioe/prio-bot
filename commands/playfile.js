@@ -6,8 +6,11 @@ function play(bots, message, file) {
     bots.js.sendMessage(message.channel, help(''));
     return;
   }
-
   var channel = message.author.voiceChannel;
+  if (!channel) {
+    bots.js.sendMessage(message.channel, 'You have to be in a voice channel to use audio commands!');
+    return;
+  }
   queue.push({ target: channel, file: file});
 
   if (playing) return;
