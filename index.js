@@ -1,7 +1,6 @@
 var Discord = require("discord.js");
 var ChatCommands = require('./lib/chat-commands.js');
 var settings = require('./settings.json');
-var walk = require('walk');
 var path = require('path');
 var IOBot = require('./lib/io-bot.js');
 var Twitch = require('./lib/twitch.js');
@@ -44,7 +43,7 @@ function start() {
     setStatusMessage(status_message.random());
     status_interval = setInterval(function () {
       setStatusMessage(status_message.random());
-    }, 5*60*1000);
+    }, 15*60*1000);
   });
 
   bots.js.on('debug', (message) => {
@@ -97,21 +96,18 @@ function initCommands() {
   console.log('initiating commands ...');
   commands.flush();
 
-  var walker = walk.walk(path.join(__dirname, 'commands'));
-  walker.on('file', function (root, fileStats, next) {
-    if (path.extname(fileStats.name) === '.js' ) {
-      console.log(`  registered command '${path.basename(fileStats.name, '.js')}'`);
-      var cmd = require(path.join(__dirname, 'commands', fileStats.name));
-      commands.register(path.basename(fileStats.name, '.js'), cmd.run, cmd.help);
-    }
-    next();
-  });
-
-  walker.on('end', function () {
-    var custom_json = fs.readJsonSync(path.join(__dirname, './commands/custom.json'));
-    commands.registerAll(custom_commands(custom_json));
-    console.log('initiated commands');
-  });
+  fs.walk(path.join(__dirname, 'commands'))
+    .on('data', (item) => {
+      if (path.extname(item.path) === '.js' ) {
+        console.log(`  registered command '${path.basename(item.path, '.js')}'`);
+        var cmd = require(item.path);
+        commands.register(path.basename(item.path, '.js'), cmd.run, cmd.help);
+      }
+    }).on('end', function () {
+      var custom_json = fs.readJsonSync(path.join(__dirname, './commands/custom.json'));
+      commands.registerAll(custom_commands(custom_json));
+      console.log('initiated commands');
+    });
 }
 
 function setStatusMessage(message) {

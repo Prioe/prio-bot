@@ -37,7 +37,7 @@
       "random": false,
       "files": [
         {
-          "file": "../media/audio/toni.mp3",
+          "file": "../media/custom/toni.mp3",
           "remote": false
         }
       ]
@@ -49,7 +49,7 @@
       "random": false,
       "files": [
         {
-          "file": "../media/audio/mimi.m4a",
+          "file": "../media/custom/mimi.m4a",
           "remote": false
         }
       ]
@@ -61,7 +61,7 @@
       "random": false,
       "files": [
         {
-          "file": "../media/audio/hue.m4a",
+          "file": "../media/custom/hue.m4a",
           "remote": false
         }
       ]
@@ -73,11 +73,11 @@
       "random": false,
       "files": [
         {
-          "file": "../media/audio/mimi.m4a",
+          "file": "../media/custom/mimi.m4a",
           "remote": false
         },
         {
-          "file": "../media/audio/hue.m4a",
+          "file": "../media/custom/hue.m4a",
           "remote": false
         }
       ]
@@ -86,5 +86,21 @@
   "rep": {
     "type": "echo",
     "content": "http://invme.ru/922/vse-znaniya-v-black-desert-priklyucheniya-v-balenose-i"
+  },
+  "test42": {
+    "type": "audio",
+    "content": {
+      "random": false,
+      "files": [
+        {
+          "file": "..\\media\\custom\\mimi.m4a",
+          "remote": false
+        },
+        {
+          "file": "..\\media\\custom\\hue.m4a",
+          "remote": false
+        }
+      ]
+    }
   }
 }

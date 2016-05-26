@@ -11,8 +11,9 @@ exports.run = function(bots, commands, message, args) {
     s += 'type `help <command>` for more info\n';
     for (var cmdi in commands._commands) {
       if (!commands._commands.hasOwnProperty(cmdi)) return;
-      s += `${cmdi}\n`;
+      s += `${cmdi}, `;
     }
+    s = s.replace(/,\s*$/, '');
     s += '```';
     bots.js.sendMessage(message.channel, s);
   }
