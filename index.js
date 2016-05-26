@@ -1,5 +1,4 @@
 var Discord = require("discord.js");
-var oauth2server = require('./lib/oauth2-server.js');
 var ChatCommands = require('./lib/chat-commands.js');
 var settings = require('./settings.json');
 var walk = require('walk');
@@ -9,37 +8,51 @@ var Twitch = require('./lib/twitch.js');
 var custom_commands = require('./lib/custom-commands.js');
 var fs = require('fs-extra');
 
-//const pyv = require('child_process').spawn(process.env.PYTHON_PATH + '/python', ['--version']);
-//pyv.stderr.on('data', (data) => {
-//  if (data === '') return;
-//  if (data.toString().match(/2\.7/))
-//    console.log(`  using: ${data.toString().replace('\n', '')}`);
-//  else
-//    console.error(`  warn: please consider using python version 2.7`);
-//});
-
-//oauth2server.startOAuth2Server();
 var bots = {};
-bots.js = new Discord.Client();
-bots.io = new IOBot(settings.io_token);
-var commands = new ChatCommands(bots, settings, onErr);
+var commands;
+var twitch;
 
-initCommands();
 
-bots.js.on("message", function(message) {
-  if (message.content === `${settings.prefix}${settings.prefix}${settings.prefix}reinit`) {
-    bots.js.reply(message, `**### REINITIATING ALL COMMANDS ###**`);
-    initCommands();
-    return;
-  }
+function start() {
+  console.log('starting bot ...');
+  bots.js = new Discord.Client();
+  console.log('started bot');
+  //bots.io = new IOBot(settings.io_token);
+  commands = new ChatCommands(bots, settings, onErr);
 
-  commands.try(message);
-});
+  initCommands();
 
-bots.js.loginWithToken(settings.token);
+  bots.js.on("message", function(message) {
+    if (message.content === `${settings.prefix}${settings.prefix}${settings.prefix}reinit`) {
+      bots.js.reply(message, `**### REINITIATING ALL COMMANDS ###**`);
+      initCommands();
+      return;
+    } else if (message.content === `${settings.prefix}${settings.prefix}${settings.prefix}restart`) {
+      try {
+        bots.js.reply(message, `**### RESTARTING BOT ###**\nnot implemented yet`);
+      } catch (e) {}
+      //restart();
+      return;
+    }
 
-var twitch = new Twitch(bots);
-twitch.start();
+    commands.try(message);
+  });
+
+  bots.js.loginWithToken(settings.token);
+
+  console.log('starting twitch-bot ...');
+  twitch = new Twitch(bots);
+  twitch.start();
+  console.log('started twitch-bot');
+}
+
+function restart() {
+  bots.js.logout();
+  //twitch.stop();
+  bots = {};
+  twitch = null;
+  start();
+}
 
 function onErr(err, message) {
   if (settings.verbosity !== 'devel') {
@@ -51,6 +64,7 @@ function onErr(err, message) {
 }
 
 function initCommands() {
+  console.log('initiating commands ...');
   commands.flush();
 
   var walker = walk.walk(path.join(__dirname, 'commands'));
@@ -63,6 +77,43 @@ function initCommands() {
     next();
   });
 
-  var custom_json = fs.readJsonSync(path.join(__dirname, './commands/custom.json'));
-  commands.registerAll(custom_commands(custom_json));
+  walker.on('end', function () {
+    var custom_json = fs.readJsonSync(path.join(__dirname, './commands/custom.json'));
+    commands.registerAll(custom_commands(custom_json));
+    console.log('initiated commands');
+  });
 }
+
+var didCleanup = false;
+function cleanup(callback) {
+  if (didCleanup) callback();
+  console.log('doing cleanup');
+  var ch = null;
+  try {
+    ch = bots.js.user.voiceChannel;
+  } catch (e) {}
+  if (ch === null) {
+    didCleanup = true;
+    callback();
+  }
+  console.log('leaving current channel ' + ch);
+  bots.js.leaveVoiceChannel(ch).catch(function (e) {
+    console.log('something bad happened while leaving the voice channel:\n' + e.stack);
+    didCleanup = true;
+    callback();
+  }).then(function () {
+    console.log('left channel');
+    didCleanup = true;
+    callback();
+  });
+}
+
+start();
+
+process.on('exit', cleanup.bind(null, process.exit));
+process.on('SIGINT', cleanup.bind(null, process.exit));
+//process.on('SIGTERM', cleanup.bind(null, process.exit));
+//process.on('SIGHUP', cleanup.bind(null, process.exit));
+//process.on('SIGUSR1', cleanup.bind(null, process.exit));
+//process.on('SIGUSR2', cleanup.bind(null, process.exit));
+//process.on('uncaughtException', cleanup.bind(null, process.exit));
