@@ -12,13 +12,11 @@ var bots = {};
 var commands;
 var twitch;
 
-
 function start() {
   console.log(`running node version ${process.version}`);
   console.log('starting bot ...');
   bots.js = new Discord.Client();
   console.log('started bot');
-  //bots.io = new IOBot(settings.io_token);
   commands = new ChatCommands(bots, settings, onErr);
 
   initCommands();
@@ -49,7 +47,7 @@ function start() {
 
 function restart() {
   bots.js.logout();
-  //twitch.stop();
+  twitch.stop();
   bots = {};
   twitch = null;
   start();
