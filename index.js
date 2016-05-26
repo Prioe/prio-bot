@@ -14,6 +14,7 @@ var twitch;
 
 
 function start() {
+  console.log(`running node version ${process.version}`);
   console.log('starting bot ...');
   bots.js = new Discord.Client();
   console.log('started bot');
