@@ -10,12 +10,13 @@ var validator = require('validator');
 exports.run = function(bots, commands, message, args) {
   var argOpts = {
     string: ['type', 'name', 'url', 'file-name'],
-    boolean: ['random', 'verbose'],
+    boolean: ['random', 'verbose', 'force'],
     '--': true,
     alias: {
       'type': 't',
       'name': 'n',
       'verbose': 'v',
+      'force': 'f'
     }
   };
 
@@ -87,7 +88,11 @@ exports.run = function(bots, commands, message, args) {
       }
       if (!validator.isURL(_args.url), {require_protocol: true}) {
         bots.js.sendMessage(message.channel, `'${_args.url}' is no valid URL!`);
-        return;
+        if (_args.force) {
+          bots.js.sendMessage(message.channel, `Using 'force'-flag so we try it anyways!`);
+        } else {
+          return;
+        }        
       }
       bots.js.sendMessage(message.channel, 'Downloading to the local file system ...', (err, dl_message) => {
         downloadFile(_args.url, path.join(__dirname, `../media/custom/${_args['file-name']}`), (dl_err) => {
