@@ -1,4 +1,0 @@
-{
-  "verbose": true,
-  "ignore": ["commands/custom.json", ".git/*", "npm-debug.log", "media/custom/*"]
-}
