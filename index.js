@@ -36,7 +36,7 @@ function start() {
 
     commands.try(message);
   });
- 
+  
   bots.js.loginWithToken(settings.token);
   console.log('starting twitch-bot ...');
   twitch = new Twitch(bots);
