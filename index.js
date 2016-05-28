@@ -151,8 +151,8 @@ start();
 
 
 
-process.on('exit', cleanup.bind(null, process.exit));
-process.on('SIGINT', cleanup.bind(null, process.exit));
+//process.on('exit', cleanup.bind(null, process.exit));
+//process.on('SIGINT', cleanup.bind(null, process.exit));
 //process.on('SIGTERM', cleanup.bind(null, process.exit));
 //process.on('SIGHUP', cleanup.bind(null, process.exit));
 //process.on('SIGUSR1', cleanup.bind(null, process.exit));

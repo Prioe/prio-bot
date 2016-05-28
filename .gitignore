@@ -1,5 +1,6 @@
 node_modules/
 media/custom/*
+media/cache/*
 settings.json
 npm-debug.log
 nodemon.json
