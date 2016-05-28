@@ -84,6 +84,7 @@ exports.run = function(bots, commands, message, args) {
       });
       break;
     default:
+      bots.js.sendMessage(message.channel, help(settings.prefix));
 
   }
 };
