@@ -3,10 +3,11 @@ var path = require('path');
 var lastplayed = 0;
 const COOLDOWN = 5;
 var settings = require('../settings.json');
+var dutil = require('../lib/discord.utilities.js');
 
 exports.run = function(bots, commands, message, args) {
   var currentTime = new Date().getTime();
-  if ((lastplayed > currentTime) && !settings.sudo_role) {
+  if ((lastplayed && lastplayed > currentTime) && !dutil.isSudo(message)) {
     bots.js.reply(message, `NOCH ${Math.floor((lastplayed - currentTime) / (60 *1000))} MINUTEN COOLDOWN :ok_hand::ok_hand::ok_hand::ok_hand::ok_hand::ok_hand::ok_hand::ok_hand:`);
     return;
   }
