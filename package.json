@@ -24,6 +24,7 @@
     "express": "^4.13.4",
     "fs-extra": "^0.26.7",
     "minimist": "^1.2.0",
+    "moment": "^2.13.0",
     "node-opus": "^0.1.13",
     "tmi.js": "0.0.29",
     "validator": "^5.2.0",

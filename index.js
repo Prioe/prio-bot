@@ -71,7 +71,7 @@ function start() {
 
   console.log('starting twitch-bot ...');
   twitch = new Twitch(bots);
-  twitch.start();
+  bots.twitch = twitch.start();
   console.log('started twitch-bot');
 }
 

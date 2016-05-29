@@ -1,7 +1,6 @@
 var dutil = require('../lib/discord.utilities.js');
 var settings = require('../settings.json');
 var parseArgs = require('minimist');
-var dutil = require('../lib/discord.utilities.js');
 var fs = require('fs-extra');
 
 var regions = ['us-west', 'us-east', 'us-south', 'us-central', 'singapore', 'london', 'sydney', 'frankfurt', 'amsterdam'];
@@ -9,12 +8,12 @@ var regions = ['us-west', 'us-east', 'us-south', 'us-central', 'singapore', 'lon
 exports.run = function(bots, commands, message, args) {
   var bot = bots.js;
   if (!dutil.isSudo(message)){
-    bot.sendMessage(message.channel, `:warning: You're not allowed to use that command! You need the role '${settings.sudo_role}' to run this command.`);
+    bot.reply(message, `:warning: You're not allowed to use that command! You need the role '${settings.sudo_role}' to run this command.`);
     return;
   }
 
   if (!args) {
-    bots.js.sendMessage(message.channel, help(settings.prefix));
+    bots.js.reply(message, help(settings.prefix));
     return;
   }
 
