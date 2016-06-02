@@ -16,7 +16,7 @@ exports.run = function(bots, commands, message, args) {
   }
 
   var channel = _args._[1];
-  channel = channel.indexOf('#') != 0 ? `#${channel}` : channel;
+  channel = channel.indexOf('#') !== 0 ? `#${channel}` : channel;
   var twitch = bots.twitch;
 
   switch (_args._[0]) {
@@ -30,7 +30,7 @@ exports.run = function(bots, commands, message, args) {
         bots.js.reply(message, 'Don\'t you try to execute commands from here!');
         return;
       }
-      twitch.say(channel, msg).then(function(data) {
+      twitch.say(channel, `<${message.author.username}> ${msg}`).then(function(data) {
         bots.js.reply(message, `Successfully sent chat message \`${msg}\` to \`${channel}\` :ok_hand:`);
         console.log(`Successfully sent chat message '${msg}' to '${channel}'.`);
       }).catch(function(err) {
