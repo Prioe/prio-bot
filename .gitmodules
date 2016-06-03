@@ -1,0 +1,4 @@
+[submodule "config"]
+	path = config
+	url = https://Prioe@bitbucket.org/Prioe/prio-bot-config.git
+	branch = devel
