@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/Prioe/prio-bot.git"
   },
-  "author": "Michael Albertz",
+  "author": "Michael Albertz <michael@prio.one>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Prioe/prio-bot/issues"
